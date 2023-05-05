@@ -7,11 +7,16 @@ import * as types from './types'
 import { RecaptchaContentScript } from './content'
 import { HcaptchaContentScript } from './content-hcaptcha'
 import * as TwoCaptcha from './provider/2captcha'
+import * as CapMonster from './provider/capmonster'
 
 export const BuiltinSolutionProviders: types.SolutionProvider[] = [
   {
     id: TwoCaptcha.PROVIDER_ID,
     fn: TwoCaptcha.getSolutions
+  },
+  {
+    id: CapMonster.PROVIDER_ID,
+    fn: CapMonster.getSolutions
   }
 ]
 
