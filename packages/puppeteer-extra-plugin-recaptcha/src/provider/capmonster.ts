@@ -80,18 +80,20 @@ async function getSolution(
     debug('Requesting solution..', solution)
     const extraData = {}
     if (captcha.s) {
-      extraData['data-s'] = captcha.s // google site specific property
+      extraData['recaptchaDataSValue'] = captcha.s // google site specific property
     }
-    if (opts.useActionValue && captcha.action) {
-      extraData['action'] = captcha.action // Optional v3/enterprise action
-    }
-    if (opts.useEnterpriseFlag && captcha.isEnterprise) {
-      extraData['enterprise'] = 1
+    if (captcha.isInvisible) {
+      extraData['isInvisible'] = true
     }
 
-    if (process.env['2CAPTCHA_PROXY_TYPE'] && process.env['2CAPTCHA_PROXY_ADDRESS']) {
-         extraData['proxytype'] = process.env['2CAPTCHA_PROXY_TYPE'].toUpperCase()
-         extraData['proxy'] = process.env['2CAPTCHA_PROXY_ADDRESS']
+    if (process.env['CAPMONSTER_PROXY_TYPE'] &&
+      process.env['CAPMONSTER_PROXY_ADDRESS'] &&
+      process.env['CAPMONSTER_PROXY_PORT']) {
+      extraData['proxyType'] = process.env['CAPMONSTER_PROXY_TYPE'].toUpperCase()
+      extraData['proxyAddress'] = process.env['CAPMONSTER_PROXY_ADDRESS']
+      extraData['proxyPort'] = process.env['CAPMONSTER_PROXY_PORT']
+      extraData['proxyLogin'] = process.env['CAPMONSTER_PROXY_LOGIN']
+      extraData['proxyPassword'] = process.env['CAPMONSTER_PROXY_PASSWORD']
     }
 
     const { err, result, invalid } = await decodeRecaptchaAsync(
