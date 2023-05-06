@@ -1,6 +1,6 @@
 {
-  "name": "puppeteer-extra-plugin-recaptcha",
-  "version": "3.6.8",
+  "name": "@visa-cat/puppeteer-extra-plugin-recaptcha",
+  "version": "3.6.9",
   "description": "A puppeteer-extra plugin to solve reCAPTCHAs and hCaptchas automatically.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -8,8 +8,8 @@
   "files": [
     "dist"
   ],
-  "repository": "berstend/puppeteer-extra",
-  "homepage": "https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-recaptcha",
+  "repository": "visa-cat/puppeteer-extra",
+  "homepage": "https://github.com/visa-cat/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-recaptcha",
   "author": "berstend",
   "license": "MIT",
   "scripts": {
@@ -77,10 +77,10 @@
     "puppeteer-extra": "*"
   },
   "peerDependenciesMeta": {
-    "puppeteer-extra": {
+    "playwright-extra": {
       "optional": true
     },
-    "playwright-extra": {
+    "puppeteer-extra": {
       "optional": true
     }
   },
