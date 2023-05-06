@@ -321,3 +321,28 @@ test('will correctly detect v3-programmatic.html with solveScoreBased:true', asy
 
   await browser.close()
 })
+
+test('will correctly detect cloudflare turnstile', async t => {
+  const url =
+    'https://nopecha.com/demo/turnstile'
+  const { browser, page } = await getBrowser(url)
+  const { captchas, error } = await (page as any).findRecaptchas()
+  t.is(error, null)
+  t.is(captchas.length, 2)
+
+  const c = captchas[0]
+  t.is(c._vendor, 'turnstile')
+  t.is(c._type, 'checkbox')
+  t.is(c.url, url)
+
+  t.true(c.sitekey && c.sitekey.length > 0)
+  t.is(c.widgetId, undefined)
+  t.is(c.display, undefined)
+  t.is(c.callback, undefined)
+
+  t.is(c.hasResponseElement, true)
+  t.is(c.isInViewport, true)
+  t.is(c.isInvisible, false)
+
+  await browser.close()
+})

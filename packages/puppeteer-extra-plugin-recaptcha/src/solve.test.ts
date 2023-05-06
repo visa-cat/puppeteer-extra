@@ -254,3 +254,44 @@ test('will not solve score based reCAPTCHAs by default', async t => {
 
   await browser.close()
 })
+
+test('will solve Turnstile', async t => {
+  if (!process.env.CAPTCHA_SOLVER_TOKEN) {
+    t.truthy('foo')
+    console.log('CAPTCHA_SOLVER_TOKEN not set, skipping test.')
+    return
+  }
+
+  const puppeteer = addExtra(require('puppeteer'))
+  const recaptchaPlugin = RecaptchaPlugin({
+    provider: {
+      id: process.env.CAPTCHA_SOLVER_NAME, // '2captcha' or 'capmonster'
+      token: process.env.CAPTCHA_SOLVER_TOKEN,
+    }
+  })
+  puppeteer.use(recaptchaPlugin)
+
+  const browser = await puppeteer.launch({
+    args: PUPPETEER_ARGS,
+    headless: true
+  })
+  const page = await browser.newPage()
+
+  const url = 'https://nopecha.com/demo/cloudflare'
+  await page.goto(url, { waitUntil: 'networkidle0' })
+
+  const result = await (page as any).solveRecaptchas()
+
+  const { captchas, solutions, solved, error } = result
+  t.falsy(error)
+
+  t.is(captchas.length, 1)
+  t.is(solutions.length, 1)
+  t.is(solved.length, 1)
+  t.is(solved[0]._vendor, 'turnstile')
+  t.is(solved[0].isSolved, true)
+
+  await page.waitForTimeout(600000)
+
+  await browser.close()
+})

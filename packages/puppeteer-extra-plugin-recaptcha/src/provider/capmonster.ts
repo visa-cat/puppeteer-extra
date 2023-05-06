@@ -42,6 +42,8 @@ async function decodeRecaptchaAsync(
       let method = 'userrecaptcha'
       if (vendor === 'hcaptcha') {
         method = 'hcaptcha'
+      } else if (vendor === 'turnstile') {
+        method = 'turnstile'
       }
       solver.decodeReCaptcha(method, sitekey, url, extraData, opts, cb)
     } catch (error) {

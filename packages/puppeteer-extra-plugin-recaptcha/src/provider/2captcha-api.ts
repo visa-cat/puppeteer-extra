@@ -161,7 +161,7 @@ export const decodeReCaptcha = function(
   if (captchaMethod === 'userrecaptcha') {
     postData.googlekey = captcha
   }
-  if (captchaMethod === 'hcaptcha') {
+  if (captchaMethod === 'hcaptcha' || captchaMethod === 'turnstile') {
     postData.sitekey = captcha
   }
 

@@ -46,7 +46,7 @@ function pollCaptcha(captchaId, options, invalid, callback) {
             null,
             {
               id: captchaId,
-              text: result.solution?.gRecaptchaResponse || ''
+              text: result.solution?.gRecaptchaResponse || result.solution?.token || ''
             },
             invalid
           )
@@ -97,6 +97,13 @@ export const decodeReCaptcha = function (
   } else if (captchaMethod == 'userrecaptcha') {
     postData.task = {
       type: "NoCaptchaTaskProxyless",
+      websiteURL: pageUrl,
+      websiteKey: captcha,
+      ...extraData,
+    }
+  } else if (captchaMethod == 'turnstile') {
+    postData.task = {
+      type: "TurnstileTaskProxyless",
       websiteURL: pageUrl,
       websiteKey: captcha,
       ...extraData,
